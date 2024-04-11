@@ -1,11 +1,21 @@
 import java.net.*;
-
 import java.io.*;
+import  javax.json.*;
+import javax.json.Json;
+import javax.json.JsonObject;
+import javax.json.JsonReader;
+import javax.json.JsonWriter;
+import javax.json.stream.JsonParsingException;
 
 public class Master  {
     private Socket socket;
     private ServerSocket server;
     private DataInputStream in;
+
+    public int Hashfunction(String roomName) {
+        return roomName.length();
+    }
+
 
     public Master(int port){
         try{
@@ -31,6 +41,14 @@ public class Master  {
                     line = in.readUTF();
                     if (!line.equals("Goodbye")) { // Έλεγχος πριν την ανάγνωση
                         System.out.println("Received room's data from Manager: " + line);
+                        // Ανάλυση του JSON για να πάρεις το roomName
+                        JsonObject jsonObject = Json.createReader(new StringReader(line)).readObject();
+                        String roomName = jsonObject.getString("roomName");
+                        // Κάλεσε την Hashfunction με το roomName ως όρισμα
+                        int hashResult = Hashfunction(roomName);
+                        System.out.println("Hash result for roomName " + roomName + ": " + hashResult);
+
+
                     }
                 }
                 catch(IOException e){

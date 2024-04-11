@@ -1,18 +1,14 @@
 
 import  javax.json.*;
-//11
-import java.io.DataOutputStream;
-
-import java.net.*;
-import java.io.*;
-
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import javax.json.JsonWriter;
 import javax.json.stream.JsonParsingException;
 
-
+import java.io.DataOutputStream;
+import java.net.*;
+import java.io.*;
 import java.io.IOException;
 import java.io.StringReader;
 import java.net.Socket;
@@ -48,8 +44,7 @@ public class ManagerApp{
                     while ((line = fileReader.readLine()) != null){
                         jsoncontent.append(line);
                     }
-                    //Room room = parseRoomFromJSON(jsoncontent.toString());
-                    //sendRoomDataToServer(room);
+
                 }
                 out.writeUTF(jsoncontent.toString());
                 System.out.println("Room's data sent to the server");
@@ -73,22 +68,30 @@ public class ManagerApp{
             }
         }
     }
+    /*
     private Room parseRoomFromJSON(String jsonData) {
         Room room = new Room();
 
         try {
+            // Create a JSON reader to parse the JSON data
             JsonReader jsonReader = Json.createReader(new StringReader(jsonData));
+            // Read the JSON object
             JsonObject jsonRoom = jsonReader.readObject();
 
+            // Populate Room object fields from JSON object
             room.setRoomName(jsonRoom.getString("roomName"));
             room.setNoOfPersons(jsonRoom.getInt("noOfPersons"));
             room.setArea(jsonRoom.getString("area"));
             room.setNoOfReviews(jsonRoom.getInt("noOfReviews"));
             room.setRoomImage(jsonRoom.getString("roomImage"));
 
+            // Close the JSON reader
             jsonReader.close();
+
+            // Print the room name for debugging purposes
             System.out.println("Room Name: " + room.getRoomName());
         } catch (JsonParsingException e) {
+            // Print the stack trace if JSON parsing fails
             e.printStackTrace();
         }
 
@@ -96,7 +99,7 @@ public class ManagerApp{
     }
 
     private void sendRoomDataToServer(Room room) {
-
+        // Create a JSON object from Room object fields
         JsonObject jsonRoom = Json.createObjectBuilder()
                 .add("roomName", room.getRoomName())
                 .add("noOfPersons", room.getNoOfPersons())
@@ -105,13 +108,16 @@ public class ManagerApp{
                 .add("roomImage", room.getRoomImage())
                 .build();
 
+        // Create a JSON writer to write JSON object to output stream
         JsonWriter jsonWriter = Json.createWriter(out);
+        // Write JSON object to output stream
         jsonWriter.writeObject(jsonRoom);
+        // Close the JSON writer
         jsonWriter.close();
-
     }
 
 
+*/
     public static void main(String args[]){
         ManagerApp client = new ManagerApp("127.0.0.1", 6666);
     }
