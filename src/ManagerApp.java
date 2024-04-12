@@ -9,7 +9,7 @@ import java.io.StringReader;
 import java.net.Socket;
 
 public class ManagerApp{
-    //test
+    //elaaaa
     private Socket socket;
     private BufferedReader in; //take input from user
     private DataOutputStream out; //send it to socket
