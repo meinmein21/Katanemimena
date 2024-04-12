@@ -2,7 +2,7 @@ import java.net.*;
 import java.io.*;
 import com.google.gson.Gson;
 
-//
+//fghjk
 public class Master  {
     private Socket socket;
     private ServerSocket server;
