@@ -5,6 +5,9 @@ import java.io.*;
 import java.io.IOException;
 import java.util.Scanner;
 import java.net.Socket;
+import java.net.UnknownHostException;
+import java.util.Scanner;
+
 
 public class DummyClient{
     private Socket socket;//communication with master
@@ -17,6 +20,14 @@ public class DummyClient{
         try{ //try to establish connection
             socket = new Socket(address,port);
 
+
+            in = new BufferedReader(new InputStreamReader(System.in));
+            out = new DataOutputStream(socket.getOutputStream());
+
+            out.writeUTF("DUMMY");
+            System.out.println("Sent 'DUMMY' message to server");
+
+
             Scanner scanner = new Scanner(System.in);
             System.out.println("Welcome to our Booking Application");
             System.out.println("Search with Filters");
@@ -27,10 +38,11 @@ public class DummyClient{
             System.out.println("5. Search by Reviews");
             System.out.println("6. Exit");
 
-            choice = scanner.nextInt();
 
-            in = new BufferedReader(new InputStreamReader(System.in));
-            out = new DataOutputStream(socket.getOutputStream());
+            choice = scanner.nextInt();
+            out.writeInt(choice);
+
+
 
             do {
                 switch (choice){
@@ -41,26 +53,32 @@ public class DummyClient{
                         break;
                     case 2:
                         System.out.println("Select preferred dates(dd/mm/yyyy - dd/mm/yyyy): ");
+                        filter = scanner.nextLine();
                         out.writeUTF(filter);
                         break;
                     case 3:
                         System.out.println("Select Maximum No of Persons: ");
+                        filter = scanner.nextLine();
                         out.writeUTF(filter);
                         break;
                     case 4:
                         System.out.println("Select Maximum Price per night: ");
+                        filter = scanner.nextLine();
                         out.writeUTF(filter);
                         break;
                     case 5:
                         System.out.println("Select Minimum Number of stars: ");
+                        filter = scanner.nextLine();
                         out.writeUTF(filter);
                         break;
                     case 6:
                         System.out.println("Exiting Searching Mode...");
+                        filter = scanner.nextLine();
                         out.writeUTF(filter);
                         break;
                     default:
-                        System.out.println("Enter your choice of Area: ");
+                        System.out.println("error try again");
+                        filter = scanner.nextLine();
                         out.writeUTF(filter);
                         break;
                 }
@@ -84,26 +102,8 @@ public class DummyClient{
         }
     }
 
-    private String mapsetup(String filter){
-        switch (choice){
-            case 1:
-                return  "area";
-            case 2:
-                return  "availableDates";
-            case 3:
-                return "noOfPersons";
-            case 4:
-                return "pricePerNight";
-            case  5:
-                return  "stars";
-            default:
-                return null;
-
-        }
-
-    }
 
     public static void main(String args[]){
-        ManagerApp client = new ManagerApp("127.0.0.1", 6666);
+         DummyClient client = new DummyClient("127.0.0.1", 6666);
     }
 }

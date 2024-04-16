@@ -9,6 +9,7 @@ public class Worker extends Thread {
     private int id;
     private List<Room> rooms;
 
+
     public Worker(int id) {
         this.id = id;
         this.rooms = new ArrayList<>();
@@ -30,13 +31,15 @@ public class Worker extends Thread {
                 rooms.add(room);
                 System.out.println("Room added to Worker " + id + ": " + room.getRoomName());
                 socket.close();
+
+
             }
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error in Worker " + id + ": " + e.getMessage());
         }
     }
 
-    public synchronized void addRoom(Room room) {
+    public synchronized void addRoomManager(Room room) {
         rooms.add(room);
         System.out.println("Room added to Worker " + id + ": " + room.getRoomName());
     }
@@ -44,7 +47,7 @@ public class Worker extends Thread {
     public List<Room> getRooms() {
         return rooms;
     }
-
+    //den uparxei case gia timh
     public  List<Room> Map(String key,String value){
         List<Room> FilteredRooms = new ArrayList<>();
         for (Room room:rooms) {
@@ -73,5 +76,7 @@ public class Worker extends Thread {
             }
         }
         return FilteredRooms;
+        //call reducer
     }
+
 }

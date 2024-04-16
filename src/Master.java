@@ -23,12 +23,23 @@ public class Master {
                 workers[i].start();
             }
 
-            while (true) {//master always stays open for upcoming connections from managers
-                Socket socket = server.accept();//accepts the client
+            while (true) {//master always stays open for upcoming connections from managers/clients
+                Socket socket = server.accept();
                 System.out.println("Client accepted");
 
-                ManagerHandler handler = new ManagerHandler(socket);//starts a new thread to handle the manager
-                handler.start();//calls ManagerHandler's run()
+                // Read the first message from the client to determine its type
+                String clientType = readClientType(socket);
+
+                if ("MANAGER".equalsIgnoreCase(clientType)) {
+                    ManagerHandler managerHandler = new ManagerHandler(socket);
+                    managerHandler.start();
+                } else if ("DUMMY".equalsIgnoreCase(clientType)) {
+                    ClientHandler dummyHandler = new ClientHandler(socket);
+                    dummyHandler.start();
+                } else {
+                    System.out.println("Unknown client type");
+                    socket.close();
+                }
             }
         }catch (IOException e) {
             System.out.println(e);
@@ -62,7 +73,6 @@ public class Master {
         public void run() {
             try {
                 System.out.println("Manager connected from IP: " + socket.getInetAddress() + " and port " + socket.getPort());
-                //System.out.println("Waiting for client...");
                 DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));//receive the data sent by client
                 String line;
 
@@ -91,7 +101,7 @@ public class Master {
                     System.out.println("Available Dates: " + room.getStartDate() + " - " + room.getEndDate());
 
                     int hashResult = Hashfunction(room.getRoomName());//call Hashfunction with roomName as argument
-                    workers[hashResult].addRoom(room);//send the room to the appropriate worker
+                    workers[hashResult].addRoomManager(room);//send the room to the appropriate worker
                     System.out.println(room.getRoomName() + " stored in Worker" + hashResult);
                 }
 
@@ -111,4 +121,71 @@ public class Master {
             return roomName.length() % numberOfWorkers;
         }
     }
+
+    private static class ClientHandler extends Thread {
+        private Socket socket;
+
+
+        public ClientHandler(Socket socket) {
+            this.socket = socket;
+
+        }
+        @Override
+        public void run() {
+            try {
+                System.out.println("DummyClient connected from IP: " + socket.getInetAddress() + " and port " + socket.getPort());
+
+
+                DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+
+                int choice;
+                while ((choice = in.readInt()) != 6) {
+                    System.out.println("Just received clients choice");
+
+                    String filtertype = mapsetup(choice);
+                    System.out.println("client wants filter by: " + filtertype);
+                    //DataInputStream fin = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+                    String filter = in.readUTF();
+                    for (int i = 0; i < numberOfWorkers; i++){
+                        workers[i].Map(filtertype,filter);
+                    }
+                }
+
+
+                System.out.println("Closing connection with DummyClient " + socket.getInetAddress() + ":" + socket.getPort());
+
+                socket.close();
+                in.close();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
+        }
+
+        private String mapsetup(int choice){
+            String result = "";
+            switch (choice){
+                case 1:
+                    return  result = "area";
+                case 2:
+                    return  result = "availableDates";
+                case 3:
+                    return result = "noOfPersons";
+                case 4:
+                    return result =  "pricePerNight";
+                case  5:
+                    return result =  "noOfReviews";
+                default:
+                    return result = "error";
+            }
+        }
+
+    }
+
+    private String readClientType(Socket socket) throws IOException {
+        DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
+        String clientType = in.readUTF();
+        System.out.println("Received client type from " + socket.getInetAddress() + ": " + clientType); // Add this line
+        return clientType;
+    }
+
 }

@@ -18,6 +18,8 @@ public class ManagerApp{
 
             in = new BufferedReader(new InputStreamReader(System.in));
             out = new DataOutputStream(socket.getOutputStream());
+            out.writeUTF("MANAGER");
+            System.out.println("Sent 'MANAGER' message to server");
 
             while (true) {
                 System.out.print("Enter Room's path or type 'Exit' to exit ");
