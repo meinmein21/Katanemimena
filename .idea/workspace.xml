@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e689b61-1b31-4cf1-b031-239fc54e1978" name="Changes" comment="map reduce try">
+    <list default="true" id="8e689b61-1b31-4cf1-b031-239fc54e1978" name="Changes" comment="psaxnontas epikoinwnia worker me reducer">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DummyClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/DummyClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ManagerApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ManagerApp.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Master.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Master.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Reducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Reducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Room.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Worker.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Worker.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,6 +57,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Application.DummyClient.executor": "Run",
+    "Application.DummyClient1.executor": "Run",
     "Application.ManagerApp.executor": "Run",
     "Application.ManagerApp1.executor": "Run",
     "Application.ManagerApp2.executor": "Run",
@@ -75,6 +77,13 @@
   }
 }]]></component>
   <component name="RunManager">
+    <configuration name="DummyClient1" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="DummyClient" />
+      <module name="katanemimenabackend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="ManagerApp1" type="Application" factoryName="Application">
       <option name="MAIN_CLASS_NAME" value="ManagerApp" />
       <module name="katanemimenabackend" />
@@ -89,10 +98,24 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="Master" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="Master" />
+      <module name="katanemimenabackend" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
+      <item itemvalue="Application.DummyClient1" />
       <item itemvalue="Application.ManagerApp1" />
       <item itemvalue="Application.ManagerApp2" />
+      <item itemvalue="Application.Master" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Master" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -143,7 +166,23 @@
       <option name="project" value="LOCAL" />
       <updated>1713265810473</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="psaxnontas epikoinwnia worker me reducer">
+      <option name="closed" value="true" />
+      <created>1713294377340</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1713294377340</updated>
+    </task>
+    <task id="LOCAL-00007" summary="psaxnontas epikoinwnia worker me reducer">
+      <option name="closed" value="true" />
+      <created>1713294403096</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1713294403096</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -151,6 +190,7 @@
     <MESSAGE value="new library" />
     <MESSAGE value="new libraryczxv" />
     <MESSAGE value="map reduce try" />
-    <option name="LAST_COMMIT_MESSAGE" value="map reduce try" />
+    <MESSAGE value="psaxnontas epikoinwnia worker me reducer" />
+    <option name="LAST_COMMIT_MESSAGE" value="psaxnontas epikoinwnia worker me reducer" />
   </component>
 </project>

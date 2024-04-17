@@ -1,47 +1,65 @@
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.List;
 
 public class Reducer {
     private ServerSocket serverSocket;
-    private Socket socket;
-    private Map<String, List<Room>> roomsMap; //saves rooms lists by key
+    private List<Room> finalRooms;
 
     public Reducer(int port) {
+        finalRooms = new ArrayList<>();
+    }
+    public void doer(int port){
+
         try {
             serverSocket = new ServerSocket(port);
-            while (true){
-                Socket socket = serverSocket.accept();
-                DataInputStream in = new DataInputStream(new BufferedInputStream(socket.getInputStream()));
-                List<Room> receivedRooms = (List<Room>) in.readObject();
+            System.out.println("Reducer started and listening on port " + port);
 
+            // Listen for incoming connections indefinitely
+            while (true) {
+                // Accept an incoming connection from a worker
+                Socket workerSocket = serverSocket.accept();
+                System.out.println("worker" + workerSocket.getPort() + " connected");
 
+                // Create a new thread to handle the worker connection
+                Thread workerThread = new WorkerHandler(workerSocket);
+                workerThread.start();
             }
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException("Error starting Reducer: " + e.getMessage());
         }
-
-    }
-/*
-    //add rooms list
-    public synchronized void addRooms(String key, List<Room> rooms){
-        roomsMap.put(key, rooms);
     }
 
-    //merge all lists
-    public List<Room> reduce(){
-        List<Room> finalRooms = new ArrayList<>();
-        for (List<Room> rooms :roomsMap.values()){
-            finalRooms.addAll(rooms);
+    // Inner class to handle worker connections in separate threads
+    private class WorkerHandler extends Thread {
+        private Socket socket;
 
+        public WorkerHandler(Socket socket) {
+            this.socket = socket;
         }
+
+        @Override
+        public void run() {
+            try {
+                // Receive filtered rooms list from Worker
+                ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+                List<Room> filteredRooms = (List<Room>) in.readObject();
+
+                // Merge received list with finalRooms
+                synchronized (finalRooms) {
+                    finalRooms.addAll(filteredRooms);
+                }
+                // Close the socket
+                socket.close();
+            } catch (IOException | ClassNotFoundException e) {
+                System.out.println("Error handling worker connection: " + e.getMessage());
+            }
+        }
+    }
+
+    public List<Room> getFinalRooms() {
         return finalRooms;
     }
-    */
 }

@@ -1,3 +1,4 @@
+
 import com.google.gson.Gson;
 import java.util.Date;
 
@@ -60,7 +61,7 @@ public class Room {
     }
 
     public int getNoOfReservations(){
-        return getNoOfReservations();
+        return noOfReservations;
     }
 
     public Date getStartDate(){

@@ -1,9 +1,6 @@
-import com.google.gson.Gson;
 import java.io.DataOutputStream;
-import java.net.*;
 import java.io.*;
 import java.io.IOException;
-import java.io.StringReader;
 import java.net.Socket;
 
 public class ManagerApp{
@@ -42,11 +39,8 @@ public class ManagerApp{
                 System.out.println("Room's data sent to the server");
             }
         }
-        catch(UnknownHostException e){
-            System.out.println(e);
-        }
         catch(IOException e){
-            System.out.println(e);
+            System.out.println("Error occured : " + e);
         }
         finally {
             try {
@@ -54,12 +48,12 @@ public class ManagerApp{
                 if (out != null) out.close();
                 if (socket !=null) socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Error occured : " + e);
             }
         }
     }
 
-    public static void main(String args[]){
+    public static void main(String[] args){
         ManagerApp client = new ManagerApp("127.0.0.1", 6666);
     }
 }

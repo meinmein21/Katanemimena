@@ -1,25 +1,19 @@
-import com.google.gson.Gson;
 import java.io.DataOutputStream;
-import java.net.*;
 import java.io.*;
 import java.io.IOException;
 import java.util.Scanner;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.Scanner;
+
 
 
 public class DummyClient{
     private Socket socket;//communication with master
     private BufferedReader in; //take input from user
     private DataOutputStream out;
-    private int choice;
-    private String filter;//send it to socket
 
     public DummyClient(String address, int port){
-        try{ //try to establish connection
+        try{
             socket = new Socket(address,port);
-
 
             in = new BufferedReader(new InputStreamReader(System.in));
             out = new DataOutputStream(socket.getOutputStream());
@@ -37,18 +31,15 @@ public class DummyClient{
             System.out.println("4. Search within a price range");
             System.out.println("5. Search by Reviews");
             System.out.println("6. Exit");
-
-
-            choice = scanner.nextInt();
+            int choice = scanner.nextInt();
             out.writeInt(choice);
-
-
 
             do {
                 switch (choice){
                     case 1:
                         System.out.println("Select Area: ");
-                        filter = scanner.nextLine();
+                        //send it to socket
+                        String filter = scanner.nextLine();
                         out.writeUTF(filter);
                         break;
                     case 2:
@@ -78,18 +69,13 @@ public class DummyClient{
                         break;
                     default:
                         System.out.println("error try again");
-                        filter = scanner.nextLine();
-                        out.writeUTF(filter);
                         break;
                 }
 
             } while(true);
         }
-        catch(UnknownHostException e){
-            System.out.println(e);
-        }
         catch(IOException e){
-            System.out.println(e);
+            System.out.println("Error occured : " + e);
         }
         finally {
             try {
@@ -97,13 +83,13 @@ public class DummyClient{
                 if (out != null) out.close();
                 if (socket !=null) socket.close();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Error occured : " + e);
             }
         }
     }
 
 
-    public static void main(String args[]){
-         DummyClient client = new DummyClient("127.0.0.1", 6666);
+    public static void main(String[] args){
+        DummyClient client = new DummyClient("127.0.0.1", 6666);
     }
 }
